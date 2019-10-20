@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.steinko.testtutorial.service.ItemService;
 import org.steinko.testtutorial.model.Item;
 
+import java.util.List;
+
 @RestController
 public class ItemController {
 	
@@ -22,6 +24,11 @@ public class ItemController {
 	@RequestMapping("/item-from-service")
 	public Item getItemFromServcie() { 
 		return service.retrieveHardcodedItem();
+	}
+	
+	@RequestMapping("/all-items")
+	public List getAllItems() { 
+		return service.retriveAllItems();
 	}
 
 }

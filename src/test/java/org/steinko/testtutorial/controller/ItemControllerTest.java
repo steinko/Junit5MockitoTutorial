@@ -22,6 +22,7 @@ import org.steinko.testtutorial.model.Item;
 import org.steinko.testtutorial.service.ItemService;
 
 import java.lang.Exception;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -51,6 +52,24 @@ public class ItemControllerTest {
 		MvcResult result = mockMvc.perform(request)
 				.andExpect(status().isOk())
 				.andExpect(content().json("{id: 2,name: Item2, price: 10, quantity: 100}"))
+				.andReturn();
+		
+		
+	}
+	
+	@Test
+	public void shouldReturnAllItems() throws Exception{ 
+		
+		when(service.retriveAllItems()).thenReturn(
+				Arrays.asList(new Item(3, "Item3",30,300)));
+		
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/all-items")
+				.accept(MediaType.APPLICATION_JSON);
+		
+		MvcResult result = mockMvc.perform(request)
+				.andExpect(status().isOk())
+				.andExpect(content().json("[{id: 3,name: Item3, price: 30, quantity: 300}]"))
 				.andReturn();
 		
 		
