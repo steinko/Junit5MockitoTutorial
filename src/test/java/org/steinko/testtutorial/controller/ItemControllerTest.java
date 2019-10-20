@@ -61,7 +61,9 @@ public class ItemControllerTest {
 	public void shouldReturnAllItems() throws Exception{ 
 		
 		when(service.retriveAllItems()).thenReturn(
-				Arrays.asList(new Item(3, "Item3",30,300)));
+				Arrays.asList(new Item(3, "Item3",30,300),
+						      new Item(4, "Item4",40,400) 
+						));
 		
 		RequestBuilder request = MockMvcRequestBuilders
 				.get("/all-items")
@@ -69,7 +71,7 @@ public class ItemControllerTest {
 		
 		MvcResult result = mockMvc.perform(request)
 				.andExpect(status().isOk())
-				.andExpect(content().json("[{id: 3,name: Item3, price: 30, quantity: 300}]"))
+				.andExpect(content().json("[{id: 3,name: Item3, price: 30, quantity: 300},{id: 4,name: Item4, price: 40, quantity: 400}]"))
 				.andReturn();
 		
 		

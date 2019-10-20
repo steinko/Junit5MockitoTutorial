@@ -5,6 +5,11 @@ public class Item {
 	 private String name;
 	 private int price;
 	 private int quantity;
+	 
+	
+	 public int getValue() {
+		 return price*quantity;
+	 }
 
 	public int getId() {
 		return id;
