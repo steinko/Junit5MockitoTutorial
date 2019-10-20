@@ -11,6 +11,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.1.BUILD-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 apply plugin: 'com.google.cloud.tools.appengine'
 
@@ -63,6 +64,9 @@ appengine {
 test {
 	useJUnitPlatform()
 }
+
+//test.finalizedBy jacocoTestReport
+//check.dependsOn jacocoTestCoverageVerification
 
 task buildDockerImage(type: Exec) { 
     group 'docker'
