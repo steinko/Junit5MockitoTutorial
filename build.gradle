@@ -1,8 +1,18 @@
+buildscript {    // Configuration for building
+  repositories {
+    jcenter()    // Bintray's repository - a fast Maven Central mirror & more
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.1.0'    // Latest 1.x.x release
+  }
+}
 plugins {
 	id 'org.springframework.boot' version '2.2.1.BUILD-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'java'
 }
+apply plugin: 'com.google.cloud.tools.appengine'
 
 group = 'org.steinko'
 version = '0.0.1-SNAPSHOT'
@@ -22,13 +32,61 @@ repositories {
 }
 
 dependencies {
+	implementation 'com.google.appengine:appengine-api-1.0-sdk:+'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
+	testImplementation 'com.google.appengine:appengine-testing:+'
+    testImplementation 'com.google.appengine:appengine-api-stubs:+'
+    testImplementation 'com.google.appengine:appengine-tools-sdk:+'
+}
+
+appengineDeploy.dependsOn  test
+appengineStage.dependsOn test
+
+
+appengine {
+  
+  stage {
+      appEngineDirectory './'
+      dockerDirectory './'
+  }
+  deploy {
+       projectId 'springboot7'
+       version '1'
+  }
 }
 
 test {
 	useJUnitPlatform()
+}
+
+task buildDockerImage(type: Exec) { 
+    group 'docker'
+    description 'build docker image'
+    commandLine 'docker', 'build', '-t', 'steinko/junitmockito:1', '.'
+   }
+
+task runDockerImage(type: Exec) { 
+    dependsOn buildDockerImage
+    group 'docker'
+    description 'run docker image'
+    commandLine 'docker', 'run', '-p', '8080:8080','steinko/junitmockito:1'
+   }
+
+
+task createGCP(type:Exec) {
+  dependsOn 'buildDockerImage'
+	group 'Deployment'
+	description 'create google cloud project'
+	commandLine 'ansible-playbook', '../../Infrastructure/Deployment/CreateProject.yaml'
+ }
+
+ task deletGCP (type:Exec) {
+   group 'Deployment'
+	description 'create google cloud project'
+	commandLine 'ansible-playbook', '../../Infrastructure/Deployment/DeleteProject.yaml'
 }
