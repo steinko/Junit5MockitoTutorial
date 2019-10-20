@@ -1,4 +1,4 @@
-package org.steinko.testtutorial.business;
+package org.steinko.testtutorial;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

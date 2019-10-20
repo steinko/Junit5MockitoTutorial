@@ -2,4 +2,4 @@ language: java
 jdk: openjdk12
 os: linux
 dist: trusty
-script: ./gradlew check
+script: ./gradlew check --info

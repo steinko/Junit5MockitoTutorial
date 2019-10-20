@@ -11,6 +11,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -22,13 +25,27 @@ public class HelloWorldControllerTest {
 	private MockMvc mockMvc;
 	
 	@Test
-	public void shouldRetunHelloWorld() throws Exception{ 
+	public void shouldReturnHelloWorld() throws Exception{ 
 		RequestBuilder request = MockMvcRequestBuilders
 				.get("/hello-world")
 				.accept(MediaType.APPLICATION_JSON);
 		
 		MvcResult result = mockMvc.perform(request).andReturn();
 		assertEquals("Hello World", result.getResponse().getContentAsString());
+		
+	}
+	
+	@Test
+	public void shouldReturnHelloWorldConent() throws Exception{ 
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/hello-world")
+				.accept(MediaType.APPLICATION_JSON);
+		
+		MvcResult result = mockMvc.perform(request)
+				.andExpect(status().isOk())
+				.andExpect(content().string("Hello World"))
+				.andReturn();
+		
 		
 	}
 
