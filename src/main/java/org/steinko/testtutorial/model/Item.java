@@ -1,6 +1,11 @@
 package org.steinko.testtutorial.model;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class Item {
+	public Item() {  }
+	@Id
 	 private int id;
 	 private String name;
 	 private int price;

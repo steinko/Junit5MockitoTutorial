@@ -17,12 +17,8 @@ public class ItemService {
 	}
 	
 	public  List<Item>  retriveAllItems() {
-		Iterable<Item> items = repository.findAll();
-		List<Item> result = new ArrayList<Item>();
 		
-        for (Item item:items ) 
-        	result.add(item);
-		return result;
+		return repository.findAll();
 	}
 
 }
