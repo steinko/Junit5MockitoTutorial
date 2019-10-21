@@ -12,7 +12,7 @@ import static org.mockito.Mockito.never;
 import org.mockito.ArgumentCaptor;
 	
 import java.util.List;
-import org.junit.jupiter.api.Test;;
+import org.junit.jupiter.api.Test;
 
 public class ListTest {
 	List<String> mock = mock(List.class);
