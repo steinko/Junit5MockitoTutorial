@@ -90,6 +90,21 @@ public class ItemControllerTest {
 				.andReturn();
 		
 	}
+	
+	@Test
+	public void shoulStreItem() throws Exception {
+		
+		RequestBuilder request = MockMvcRequestBuilders
+				.post("/item")
+				.content("{id: 10, name: Ball10, price: 10, quantity: 100}")))
+                .contentType(MediaType.APPLICATION_JSON);
+				
+		
+		MvcResult result = mockMvc.perform(request)
+				.andExpect(status().isCreated())
+				.andReturn();
+		
+	}
 
 }
 

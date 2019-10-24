@@ -30,17 +30,16 @@ dependencies {
 	implementation 'com.google.appengine:appengine-api-1.0-sdk:+'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
-	
 	//developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-  
-	testImplementation 'com.h2database:h2:1.4.200'
 	testImplementation 'com.google.appengine:appengine-testing:+'
   testImplementation 'com.google.appengine:appengine-api-stubs:+'
   testImplementation 'com.google.appengine:appengine-tools-sdk:+'
+
+  runtime 'com.h2database:h2:1.4.200'
 
 }
 
@@ -66,13 +65,18 @@ test {
 
 sourceSets {
     intTest {
-        java.srcDir file('src/intTest/java')
-        resources.srcDir file('src/intTest/resources')
-        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
-        runtimeClasspath += output + compileClasspath
+        //java.srcDir file('src/intTest/java')
+        //resources.srcDir file('src/intTest/resources')
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+        
     }
 }
 
+configurations {
+    intTestImplementation.extendsFrom testImplementation
+    intTestRuntimeOnly.extendsFrom runtimeOnly
+}
 
 task integrationTest(type: Test) {
     group 'Verification'
